@@ -44,21 +44,25 @@ public enum SNSPlatformApplication {
     private final String awsPlatformName;
 
     SNSPlatformApplication(String name, String awsPlatformName) {
+
         this.name = name;
         this.awsPlatformName = awsPlatformName;
     }
 
     public String getName() {
+
         return name;
     }
 
     public String getAwsPlatformName() {
+
         return awsPlatformName;
     }
 
     private static final SNSPlatformApplication[] ENUM_VALUES = values();
 
     public static SNSPlatformApplication getByName(String name) {
+
         name = name.trim().toLowerCase(Locale.ENGLISH);
         for (SNSPlatformApplication platform : ENUM_VALUES) {
             if (platform.getName().equalsIgnoreCase(name)) {
@@ -69,6 +73,7 @@ public enum SNSPlatformApplication {
     }
 
     public static SNSPlatformApplication getByEndpointArn(String endpointArn) {
+
         if (endpointArn == null || endpointArn.isEmpty()) {
             return null;
         }
