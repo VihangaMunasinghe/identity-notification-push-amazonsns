@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.notification.push.provider.PushProvider;
-import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplates;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplate;
 import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPlatformApplication;
 import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPushProviderConstants;
 import org.wso2.carbon.identity.notification.push.provider.amazonsns.internal.SNSProviderDataHolder;
@@ -107,7 +107,7 @@ public class AmazonSNSPushProvider implements PushProvider {
         try (SnsClient snsClient = getSNSClient(pushSenderData.getProperties())) {
 
             // Build platform-specific notification messages
-            String messagePayload = NotificationTemplates.buildNotificationMessages(
+            String messagePayload = NotificationTemplate.buildNotificationMessages(
                     pushNotificationData.getNotificationTitle(),
                     pushNotificationData.getNotificationBody(),
                     pushNotificationData.getAdditionalData()

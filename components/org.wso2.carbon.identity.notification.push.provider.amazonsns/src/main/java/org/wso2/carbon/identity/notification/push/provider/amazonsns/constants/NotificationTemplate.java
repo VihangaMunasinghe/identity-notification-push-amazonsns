@@ -25,9 +25,9 @@ import java.util.Map;
 /**
  * Notification message templates for different push notification platforms.
  */
-public class NotificationTemplates {
+public class NotificationTemplate {
 
-    private NotificationTemplates() {
+    private NotificationTemplate() {
 
     }
 

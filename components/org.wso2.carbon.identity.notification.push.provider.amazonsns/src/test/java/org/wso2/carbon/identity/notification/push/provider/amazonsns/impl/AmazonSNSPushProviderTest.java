@@ -25,7 +25,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplates;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplate;
 import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPushProviderConstants;
 import org.wso2.carbon.identity.notification.push.provider.amazonsns.internal.SNSProviderDataHolder;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderClientException;
@@ -170,8 +170,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -200,8 +200,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -229,8 +229,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -258,8 +258,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -328,8 +328,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -357,8 +357,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -386,8 +386,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -415,8 +415,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
@@ -444,8 +444,8 @@ public class AmazonSNSPushProviderTest {
 
         TestableAmazonSNSPushProvider testProvider = new TestableAmazonSNSPushProvider(snsClient);
 
-        try (MockedStatic<NotificationTemplates> mockedTemplates = Mockito.mockStatic(NotificationTemplates.class)) {
-            mockedTemplates.when(() -> NotificationTemplates.buildNotificationMessages(
+        try (MockedStatic<NotificationTemplate> mockedTemplates = Mockito.mockStatic(NotificationTemplate.class)) {
+            mockedTemplates.when(() -> NotificationTemplate.buildNotificationMessages(
                     anyString(), anyString(), any(Map.class))).thenReturn(TEST_MESSAGE_PAYLOAD);
 
             PushNotificationData notificationData = new PushNotificationData.Builder()
