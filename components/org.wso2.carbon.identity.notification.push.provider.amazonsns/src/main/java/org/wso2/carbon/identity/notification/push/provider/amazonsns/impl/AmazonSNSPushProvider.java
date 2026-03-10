@@ -55,22 +55,20 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.wso2.carbon.identity.notification.push.provider.constant.PushProviderConstants.
-        PUSH_PROVIDER_SECRET_TYPE;
+import static org.wso2.carbon.identity.notification.push.provider.constant.PushProviderConstants.PUSH_PROVIDER_SECRET_TYPE;
 
 /**
  * Amazon SNS push notification provider implementation.
  */
 public class AmazonSNSPushProvider implements PushProvider {
+
     private static final Log log = LogFactory.getLog(AmazonSNSPushProvider.class);
 
     /**
      * Initializes the Amazon SNS Push Provider.
      */
     public AmazonSNSPushProvider() {
-        if (log.isDebugEnabled()) {
-            log.debug("Amazon SNS Push Provider initialized successfully.");
-        }
+
     }
 
     @Override
@@ -79,26 +77,18 @@ public class AmazonSNSPushProvider implements PushProvider {
         return SNSPushProviderConstants.SNS_PROVIDER_NAME;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void sendNotification(PushNotificationData pushNotificationData, PushSenderData pushSenderData,
                                  String tenantDomain) throws PushProviderException {
-
-        // Validations
-        if (!validateSNSCredentials(pushSenderData.getProperties())) {
-            PushProviderConstants.ErrorMessages error =
-                    PushProviderConstants.ErrorMessages.ERROR_PUSH_NOTIFICATION_SENDING_FAILED;
-            throw new PushProviderServerException(error.getCode(), error.getMessage());
-        }
 
         SNSPlatformApplication platform = SNSPlatformApplication.getByEndpointArn(
                 pushNotificationData.getDeviceHandle());
 
         if (platform == null) {
-            log.error("Unable to determine platform from endpoint ARN: "
-                    + sanitizeLogInput(pushNotificationData.getDeviceHandle()));
+            if (log.isDebugEnabled()) {
+                log.debug("Unable to determine platform from endpoint ARN: "
+                        + sanitizeLogInput(pushNotificationData.getDeviceHandle()));
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_PUSH_NOTIFICATION_SENDING_FAILED;
             throw new PushProviderServerException(error.getCode(), error.getMessage());
@@ -149,22 +139,28 @@ public class AmazonSNSPushProvider implements PushProvider {
         } catch (InvalidParameterException e) {
             String errorMsg = e.awsErrorDetails().errorMessage();
             if (errorMsg.contains("TargetArn") && errorMsg.contains("No endpoint found")) {
-                log.debug("The specified SNS endpoint was not found: "
-                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                if (log.isDebugEnabled()) {
+                    log.debug("The specified SNS endpoint was not found: "
+                            + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                }
                 PushProviderConstants.ErrorMessages error =
                         PushProviderConstants.ErrorMessages.ERROR_DEVICE_HANDLE_EXPIRED_OR_NEW_REGISTRATION_REQUIRED;
                 throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
             } else {
-                log.debug("Invalid parameter for SNS publish: "
-                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                if (log.isDebugEnabled()) {
+                    log.debug("Invalid parameter for SNS publish: "
+                            + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                }
                 PushProviderConstants.ErrorMessages error =
                         PushProviderConstants.ErrorMessages.ERROR_PUSH_NOTIFICATION_SENDING_FAILED;
                 throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
             }
 
         } catch (NotFoundException e) {
-            log.error("Some required resource not found: "
-                    + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            if (log.isDebugEnabled()) {
+                log.debug("Some required resource not found: "
+                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_PUSH_NOTIFICATION_SENDING_FAILED;
             throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
@@ -174,19 +170,10 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerDevice(PushDeviceData pushDeviceData, PushSenderData pushSenderData)
             throws PushProviderException {
 
-        // Validations
-        if (!validateSNSCredentials(pushSenderData.getProperties())) {
-            PushProviderConstants.ErrorMessages error =
-                    PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_REGISTRATION_FAILED;
-            throw new PushProviderServerException(error.getCode(), error.getMessage());
-        }
         validateProviderMetadata(pushDeviceData.getProviderMetadata());
 
         SNSPlatformApplication platform = SNSPlatformApplication.getByName(
@@ -238,22 +225,28 @@ public class AmazonSNSPushProvider implements PushProvider {
                                 sanitizeLogInput(existingEndpointArn));
                     }
                 } else {
-                    log.debug("Endpoint already exists but could not extract ARN: "
-                            + sanitizeLogInput(message));
+                    if (log.isDebugEnabled()) {
+                        log.debug("Endpoint already exists but could not extract ARN: "
+                                + sanitizeLogInput(message));
+                    }
                     PushProviderConstants.ErrorMessages error =
                             PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_REGISTRATION_FAILED;
                     throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
                 }
             } else {
-                log.debug("Invalid parameter for device registration: "
-                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                if (log.isDebugEnabled()) {
+                    log.debug("Invalid parameter for device registration: "
+                            + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+                }
                 PushProviderConstants.ErrorMessages error =
                         PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_REGISTRATION_FAILED;
                 throw new PushProviderClientException(error.getCode(), error.getMessage(), e);
             }
         } catch (NotFoundException e) {
-            log.error("The specified platform application ARN was not found: "
-                    + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            if (log.isDebugEnabled()) {
+                log.debug("The specified platform application ARN was not found: "
+                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_REGISTRATION_FAILED;
             throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
@@ -263,9 +256,6 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void unregisterDevice(PushDeviceData pushDeviceData, PushSenderData pushSenderData)
             throws PushProviderException {
@@ -276,11 +266,6 @@ public class AmazonSNSPushProvider implements PushProvider {
                 log.debug("Device handle is missing. Skipping SNS endpoint deletion.");
             }
             return;
-        }
-        if (!validateSNSCredentials(pushSenderData.getProperties())) {
-            PushProviderConstants.ErrorMessages error =
-                    PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_UNREGISTRATION_FAILED;
-            throw new PushProviderServerException(error.getCode(), error.getMessage());
         }
 
         try (SnsClient snsClient = getSNSClient(pushSenderData.getProperties())) {
@@ -296,25 +281,17 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void updateDevice(PushDeviceData pushDeviceData, PushSenderData pushSenderData)
             throws PushProviderException {
 
-        // Validations
-        if (!validateSNSCredentials(pushSenderData.getProperties())) {
-            PushProviderConstants.ErrorMessages error =
-                    PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_UPDATE_FAILED;
-            throw new PushProviderServerException(error.getCode(), error.getMessage());
-        }
-
         SNSPlatformApplication platform = SNSPlatformApplication.getByEndpointArn(pushDeviceData.getDeviceHandle());
 
         if (platform == null) {
-            log.debug("Unable to determine platform from endpoint ARN: "
-                    + sanitizeLogInput(pushDeviceData.getDeviceHandle()));
+            if (log.isDebugEnabled()) {
+                log.debug("Unable to determine platform from endpoint ARN: "
+                        + sanitizeLogInput(pushDeviceData.getDeviceHandle()));
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_PUSH_DEVICE_UPDATE_FAILED;
             throw new PushProviderServerException(error.getCode(), error.getMessage());
@@ -332,8 +309,10 @@ public class AmazonSNSPushProvider implements PushProvider {
                 log.debug("Device successfully updated in Amazon SNS.");
             }
         } catch (NotFoundException e) {
-            log.debug("The specified SNS endpoint was not found: "
-                    + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+            if (log.isDebugEnabled()) {
+                log.debug("The specified SNS endpoint was not found: "
+                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()));
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_DEVICE_HANDLE_EXPIRED_OR_NEW_REGISTRATION_REQUIRED;
             throw new PushProviderClientException(error.getCode(), error.getMessage(), e);
@@ -344,9 +323,6 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> preProcessProperties(PushSenderData pushSenderData) throws PushProviderException {
 
@@ -354,46 +330,38 @@ public class AmazonSNSPushProvider implements PushProvider {
             log.debug("Pre-processing properties for providerId: "
                     + sanitizeLogInput(pushSenderData.getProviderId()));
         }
-        Map<String, String> properties = new HashMap<>(pushSenderData.getProperties());
 
-        if (!validateSNSCredentials(properties)) {
+        if (!validateSNSCredentials(pushSenderData.getProperties())) {
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_REQUIRED_PROPERTY_MISSING;
             throw new PushProviderServerException(error.getCode(), error.getMessage());
         }
 
-        return properties;
+        return pushSenderData.getProperties();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> postProcessProperties(PushSenderData pushSenderData) throws PushProviderException {
-        if (log.isDebugEnabled()) {
-            log.debug("Post-processing properties for providerId: "
-                    + sanitizeLogInput(pushSenderData.getProviderId()));
-        }
 
         // Nothing to post process for SNS. Return the properties as is.
+        if (log.isDebugEnabled()) {
+            log.debug("No Post-processing properties needed for providerId: "
+                    + sanitizeLogInput(pushSenderData.getProviderId()));
+        }
 
         return pushSenderData.getProperties();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void updateCredentials(PushSenderData pushSenderData, String s) throws PushProviderException {
+
         // No-op for SNS as credentials are managed via secret manager.
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> storePushProviderSecretProperties(PushSenderData pushSenderData)
             throws PushProviderException {
+
         if (log.isDebugEnabled()) {
             log.debug("Storing push provider secret properties for providerId: "
                     + sanitizeLogInput(pushSenderData.getProviderId()));
@@ -440,12 +408,10 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> retrievePushProviderSecretProperties(PushSenderData pushSenderData)
             throws PushProviderException {
+
         if (log.isDebugEnabled()) {
             log.debug("Retrieving push provider secret properties for providerId: "
                     + sanitizeLogInput(pushSenderData.getProviderId()));
@@ -474,8 +440,10 @@ public class AmazonSNSPushProvider implements PushProvider {
 
                 return properties;
             } else {
-                log.debug("Secret does not exist in secret manager: "
-                        + sanitizeLogInput(secretReference));
+                if (log.isDebugEnabled()) {
+                    log.debug("Secret does not exist in secret manager: "
+                            + sanitizeLogInput(secretReference));
+                }
                 PushProviderConstants.ErrorMessages error =
                         PushProviderConstants.ErrorMessages.ERROR_WHILE_RETRIEVING_SECRETS_OF_PUSH_PROVIDER;
                 throw new PushProviderServerException(error.getCode(), error.getMessage());
@@ -488,11 +456,9 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void deletePushProviderSecretProperties(PushSenderData pushSenderData) throws PushProviderException {
+
         if (log.isDebugEnabled()) {
             log.debug("Deleting push provider secret properties for providerId: "
                     + sanitizeLogInput(pushSenderData.getProviderId()));
@@ -521,7 +487,15 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
+    /**
+     * Validate that the required SNS credentials are present in the given properties.
+     *
+     * @param properties Map containing the SNS provider properties to validate.
+     * @return {@code true} if all required credentials are present, {@code false} otherwise.
+     * @throws PushProviderException If an error occurs during validation.
+     */
     private boolean validateSNSCredentials(Map<String, String> properties) throws PushProviderException {
+
         boolean isValid = true;
         if (StringUtils.isBlank(properties.get(SNSPushProviderConstants.SNS_ACCESS_KEY_ID))) {
             log.debug("SNS Access Key ID is missing in properties.");
@@ -538,7 +512,14 @@ public class AmazonSNSPushProvider implements PushProvider {
         return isValid;
     }
 
+    /**
+     * Validate the provider metadata required for device registration.
+     *
+     * @param providerMetadata Map containing the provider metadata to validate.
+     * @throws PushProviderException If required metadata is missing or invalid.
+     */
     private void validateProviderMetadata(Map<String, String> providerMetadata) throws PushProviderException {
+
         if (providerMetadata == null || providerMetadata.isEmpty()) {
             log.debug("Provider metadata is missing.");
             PushProviderConstants.ErrorMessages error =
@@ -557,7 +538,9 @@ public class AmazonSNSPushProvider implements PushProvider {
 
         SNSPlatformApplication platform = SNSPlatformApplication.getByName(platformName);
         if (platform == null) {
-            log.debug("Invalid platform name in provider metadata: " + sanitizeLogInput(platformName));
+            if (log.isDebugEnabled()) {
+                log.debug("Invalid platform name in provider metadata: " + sanitizeLogInput(platformName));
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_REQUIRED_METADATA_MISSING;
             throw new PushProviderClientException(error.getCode(),
@@ -574,15 +557,26 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
+    /**
+     * Retrieve the platform application ARN for the given platform from the properties.
+     *
+     * @param platform   The SNS platform application.
+     * @param properties Map containing the provider properties.
+     * @return The platform application ARN.
+     * @throws PushProviderException If the platform ARN is not found in the properties.
+     */
     private String getPlatformArn(SNSPlatformApplication platform, Map<String, String> properties)
             throws PushProviderException {
+
         String platformArnKey = SNSPushProviderConstants.SNS_PLATFORM_ARNS +
                 SNSPushProviderConstants.SNS_PLATFORM_DELIMITER + platform.getName();
         String platformArnValue = properties.get(platformArnKey);
         if (platformArnValue != null && !platformArnValue.isEmpty()) {
             return platformArnValue;
         } else {
-            log.debug("Platform ARN not found for platform: " + sanitizeLogInput(platform.getName()));
+            if (log.isDebugEnabled()) {
+                log.debug("Platform ARN not found for platform: " + sanitizeLogInput(platform.getName()));
+            }
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_REQUIRED_PROPERTY_MISSING;
             throw new PushProviderServerException(error.getCode(),
@@ -590,8 +584,16 @@ public class AmazonSNSPushProvider implements PushProvider {
         }
     }
 
+    /**
+     * Build the endpoint attributes map for updating a device endpoint.
+     *
+     * @param pushDeviceData The push device data containing the device token.
+     * @param platform       The SNS platform application.
+     * @return Map of endpoint attributes to update.
+     */
     private static Map<String, String> getUpdateEndpointAttributes(
             PushDeviceData pushDeviceData, SNSPlatformApplication platform) {
+
         Map<String, String> endpointAttributes = new HashMap<>();
         endpointAttributes.put(SNSPushProviderConstants.SNS_TOKEN, pushDeviceData.getDeviceToken());
         endpointAttributes.put(SNSPushProviderConstants.SNS_ENABLED, "true");
@@ -612,6 +614,7 @@ public class AmazonSNSPushProvider implements PushProvider {
      * @throws PushProviderException If the client cannot be created.
      */
     protected SnsClient getSNSClient(Map<String, String> properties) throws PushProviderException {
+
         String accessKeyId = properties.get(SNSPushProviderConstants.SNS_ACCESS_KEY_ID);
         String secretAccessKey = properties.get(SNSPushProviderConstants.SNS_SECRET_ACCESS_KEY);
         String region = properties.get(SNSPushProviderConstants.SNS_REGION);
@@ -627,6 +630,12 @@ public class AmazonSNSPushProvider implements PushProvider {
                 .build();
     }
 
+    /**
+     * Sanitize the input string for safe logging by replacing newline characters.
+     *
+     * @param input The input string to sanitize.
+     * @return The sanitized string with newline characters replaced, or {@code null} if input is {@code null}.
+     */
     private static String sanitizeLogInput(String input) {
 
         if (input == null) {
@@ -635,17 +644,28 @@ public class AmazonSNSPushProvider implements PushProvider {
         return input.replaceAll("[\r\n]", "_");
     }
 
+    /**
+     * Handle SNS exceptions by logging the error details and throwing a push provider exception.
+     *
+     * @param e            The SNS exception to handle.
+     * @param defaultError The default error message to use for the thrown exception.
+     * @throws PushProviderException Always thrown with the provided error details.
+     */
     private void handleSNSException(SnsException e,
                                     PushProviderConstants.ErrorMessages defaultError)
             throws PushProviderException {
+
         if (e instanceof AuthorizationErrorException) {
-            log.error("Authorization error occurred while interacting with Amazon SNS: "
-                    + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            if (log.isDebugEnabled()) {
+                log.debug("Authorization error occurred while interacting with Amazon SNS: "
+                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            }
         } else {
-            log.error("Error occurred while interacting with Amazon SNS: "
-                    + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            if (log.isDebugEnabled()) {
+                log.debug("Error occurred while interacting with Amazon SNS: "
+                        + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
+            }
         }
         throw new PushProviderServerException(defaultError.getCode(), defaultError.getMessage(), e);
     }
-
 }

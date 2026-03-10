@@ -293,21 +293,6 @@ public class AmazonSNSPushProviderTest {
     // ==================== Test sendNotification() - Failure Cases ====================
 
     @Test(priority = 6, expectedExceptions = {PushProviderServerException.class})
-    public void testSendNotificationFailWithInvalidCredentials() throws PushProviderException {
-        Map<String, String> properties = new HashMap<>();
-        properties.put(SNSPushProviderConstants.SNS_ACCESS_KEY_ID, "");
-        when(pushSenderData.getProperties()).thenReturn(properties);
-
-        PushNotificationData notificationData = new PushNotificationData.Builder()
-                .setNotificationTitle(TEST_NOTIFICATION_TITLE)
-                .setNotificationBody(TEST_NOTIFICATION_BODY)
-                .setDeviceHandle(TEST_ENDPOINT_ARN)
-                .build();
-
-        snsPushProvider.sendNotification(notificationData, pushSenderData, "carbon.super");
-    }
-
-    @Test(priority = 7, expectedExceptions = {PushProviderServerException.class})
     public void testSendNotificationFailWithNullPlatform() throws PushProviderException {
         Map<String, String> properties = createValidProperties();
         when(pushSenderData.getProperties()).thenReturn(properties);
@@ -321,7 +306,7 @@ public class AmazonSNSPushProviderTest {
         snsPushProvider.sendNotification(notificationData, pushSenderData, "carbon.super");
     }
 
-    @Test(priority = 8, expectedExceptions = {PushProviderException.class})
+    @Test(priority = 7, expectedExceptions = {PushProviderException.class})
     public void testSendNotificationFailWithInvalidParameterException() throws PushProviderException {
         Map<String, String> properties = createValidProperties();
         when(pushSenderData.getProperties()).thenReturn(properties);
@@ -767,16 +752,6 @@ public class AmazonSNSPushProviderTest {
 
     // ==================== Test unregisterDevice() - Failure Cases ====================
 
-    @Test(priority = 28, expectedExceptions = {PushProviderServerException.class})
-    public void testUnregisterDeviceFailWithInvalidCredentials() throws PushProviderException {
-        Map<String, String> properties = new HashMap<>();
-        when(pushSenderData.getProperties()).thenReturn(properties);
-
-        PushDeviceData deviceData = new PushDeviceData(TEST_DEVICE_TOKEN, TEST_ENDPOINT_ARN, TEST_PROVIDER_ID);
-
-        snsPushProvider.unregisterDevice(deviceData, pushSenderData);
-    }
-
     @Test(priority = 29, expectedExceptions = {PushProviderException.class})
     public void testUnregisterDeviceFailWithSnsException() throws PushProviderException {
         Map<String, String> properties = createValidProperties();
@@ -858,16 +833,6 @@ public class AmazonSNSPushProviderTest {
     }
 
     // ==================== Test updateDevice() - Failure Cases ====================
-
-    @Test(priority = 33, expectedExceptions = {PushProviderServerException.class})
-    public void testUpdateDeviceFailWithInvalidCredentials() throws PushProviderException {
-        Map<String, String> properties = new HashMap<>();
-        when(pushSenderData.getProperties()).thenReturn(properties);
-
-        PushDeviceData deviceData = new PushDeviceData(TEST_DEVICE_TOKEN, TEST_ENDPOINT_ARN, TEST_PROVIDER_ID);
-
-        snsPushProvider.updateDevice(deviceData, pushSenderData);
-    }
 
     @Test(priority = 34, expectedExceptions = {PushProviderServerException.class})
     public void testUpdateDeviceFailWithNullPlatform() throws PushProviderException {
