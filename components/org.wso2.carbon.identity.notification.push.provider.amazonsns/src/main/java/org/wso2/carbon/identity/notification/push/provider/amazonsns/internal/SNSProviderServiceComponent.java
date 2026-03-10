@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.notification.push.provider.sns.internal;
+package org.wso2.carbon.identity.notification.push.provider.amazonsns.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,7 +28,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.notification.push.provider.PushProvider;
-import org.wso2.carbon.identity.notification.push.provider.sns.impl.AmazonSNSPushProvider;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.impl.AmazonSNSPushProvider;
 import org.wso2.carbon.identity.secret.mgt.core.SecretManager;
 import org.wso2.carbon.identity.secret.mgt.core.SecretResolveManager;
 

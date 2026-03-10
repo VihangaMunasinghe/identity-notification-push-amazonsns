@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.notification.push.provider.sns.impl;
+package org.wso2.carbon.identity.notification.push.provider.amazonsns.impl;
 
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -25,15 +25,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplates;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPushProviderConstants;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.internal.SNSProviderDataHolder;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderClientException;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderException;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderServerException;
 import org.wso2.carbon.identity.notification.push.provider.model.PushDeviceData;
 import org.wso2.carbon.identity.notification.push.provider.model.PushNotificationData;
 import org.wso2.carbon.identity.notification.push.provider.model.PushSenderData;
-import org.wso2.carbon.identity.notification.push.provider.sns.constants.NotificationTemplates;
-import org.wso2.carbon.identity.notification.push.provider.sns.constants.SNSPushProviderConstants;
-import org.wso2.carbon.identity.notification.push.provider.sns.internal.SNSProviderDataHolder;
 import org.wso2.carbon.identity.secret.mgt.core.SecretManager;
 import org.wso2.carbon.identity.secret.mgt.core.SecretResolveManager;
 import org.wso2.carbon.identity.secret.mgt.core.exception.SecretManagementException;

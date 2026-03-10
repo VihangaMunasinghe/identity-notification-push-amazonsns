@@ -72,7 +72,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.wso2.orbit.software.amazon.awssdk</groupId>
-                <artifactId>sns</artifactId>
+                <artifactId>aws-sns</artifactId>
                 <version>${aws.sns.orbit.version}</version>
             </dependency>
             <dependency>

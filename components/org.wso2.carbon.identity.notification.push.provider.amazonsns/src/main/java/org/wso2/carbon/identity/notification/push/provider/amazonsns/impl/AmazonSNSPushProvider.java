@@ -16,12 +16,16 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.notification.push.provider.sns.impl;
+package org.wso2.carbon.identity.notification.push.provider.amazonsns.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.notification.push.provider.PushProvider;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.NotificationTemplates;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPlatformApplication;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.constants.SNSPushProviderConstants;
+import org.wso2.carbon.identity.notification.push.provider.amazonsns.internal.SNSProviderDataHolder;
 import org.wso2.carbon.identity.notification.push.provider.constant.PushProviderConstants;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderClientException;
 import org.wso2.carbon.identity.notification.push.provider.exception.PushProviderException;
@@ -29,10 +33,6 @@ import org.wso2.carbon.identity.notification.push.provider.exception.PushProvide
 import org.wso2.carbon.identity.notification.push.provider.model.PushDeviceData;
 import org.wso2.carbon.identity.notification.push.provider.model.PushNotificationData;
 import org.wso2.carbon.identity.notification.push.provider.model.PushSenderData;
-import org.wso2.carbon.identity.notification.push.provider.sns.constants.NotificationTemplates;
-import org.wso2.carbon.identity.notification.push.provider.sns.constants.SNSPlatformApplication;
-import org.wso2.carbon.identity.notification.push.provider.sns.constants.SNSPushProviderConstants;
-import org.wso2.carbon.identity.notification.push.provider.sns.internal.SNSProviderDataHolder;
 import org.wso2.carbon.identity.secret.mgt.core.SecretManager;
 import org.wso2.carbon.identity.secret.mgt.core.SecretResolveManager;
 import org.wso2.carbon.identity.secret.mgt.core.exception.SecretManagementException;

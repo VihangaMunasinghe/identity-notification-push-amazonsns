@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.notification.push.provider.sns.constants;
+package org.wso2.carbon.identity.notification.push.provider.amazonsns.constants;
 
 /**
  * Constants for Amazon SNS push notification provider.

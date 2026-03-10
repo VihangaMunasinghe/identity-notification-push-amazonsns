@@ -36,7 +36,7 @@
     <dependencies>
         <dependency>
             <groupId>org.wso2.orbit.software.amazon.awssdk</groupId>
-            <artifactId>sns</artifactId>
+            <artifactId>aws-sns</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -103,24 +103,32 @@
                         <Bundle-Name>${project.name}</Bundle-Name>
 
                         <Private-Package>
-                            org.wso2.carbon.identity.notification.push.provider.sns.internal,
-                            org.wso2.carbon.identity.notification.push.provider.sns.constants
+                            org.wso2.carbon.identity.notification.push.provider.amazonsns.internal,
+                            org.wso2.carbon.identity.notification.push.provider.amazonsns.constants
                         </Private-Package>
 
                         <Export-Package>
-                            !org.wso2.carbon.identity.notification.push.provider.sns.internal,
-                            !org.wso2.carbon.identity.notification.push.provider.sns.constants,
-                            org.wso2.carbon.identity.notification.push.provider.sns.impl; version="${project.version}"
+                            !org.wso2.carbon.identity.notification.push.provider.amazonsns.internal,
+                            !org.wso2.carbon.identity.notification.push.provider.amazonsns.constants,
+                            org.wso2.carbon.identity.notification.push.provider.amazonsns.impl;
+                            version="${project.version}"
                         </Export-Package>
 
                         <Import-Package>
-                            org.wso2.carbon.identity.notification.push.provider; version="${carbon.identity.notification.push.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.notification.push.provider.constant; version="${carbon.identity.notification.push.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.notification.push.provider.exception; version="${carbon.identity.notification.push.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.notification.push.provider.model; version="${carbon.identity.notification.push.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.secret.mgt.core; version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.secret.mgt.core.exception; version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.secret.mgt.core.model; version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.notification.push.provider;
+                            version="${carbon.identity.notification.push.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.notification.push.provider.constant;
+                            version="${carbon.identity.notification.push.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.notification.push.provider.exception;
+                            version="${carbon.identity.notification.push.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.notification.push.provider.model;
+                            version="${carbon.identity.notification.push.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.secret.mgt.core;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.secret.mgt.core.exception;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.secret.mgt.core.model;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
 
                             org.apache.commons.logging.*; version="${commons.logging.range}",
                             org.osgi.framework; version="${osgi.framework.imp.pkg.version.range}",
@@ -128,13 +136,11 @@
 
                             software.amazon.awssdk.auth.credentials,
                             software.amazon.awssdk.awscore.exception,
+                            software.amazon.awssdk.http,
                             software.amazon.awssdk.http.apache5,
                             software.amazon.awssdk.regions,
                             software.amazon.awssdk.services.sns,
-                            software.amazon.awssdk.services.sns.model,
-
-                            !org.wso2.carbon.identity.notification.push.provider.sns.constants,
-                            *
+                            software.amazon.awssdk.services.sns.model
                         </Import-Package>
                     </instructions>
                 </configuration>

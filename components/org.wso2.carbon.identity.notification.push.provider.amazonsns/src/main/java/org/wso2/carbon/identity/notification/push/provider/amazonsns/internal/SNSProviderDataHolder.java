@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.carbon.identity.notification.push.provider.sns.internal;
+package org.wso2.carbon.identity.notification.push.provider.amazonsns.internal;
 
 import org.wso2.carbon.identity.secret.mgt.core.SecretManager;
 import org.wso2.carbon.identity.secret.mgt.core.SecretResolveManager;
