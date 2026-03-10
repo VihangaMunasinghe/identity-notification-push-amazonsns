@@ -109,23 +109,7 @@ public class AmazonSNSPushProvider implements PushProvider {
                     .messageStructure("json");
 
             // Add message attributes for WNS and MPNS platforms
-            if (platform == SNSPlatformApplication.WNS) {
-                Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
-                messageAttributes.put("AWS.SNS.MOBILE.WNS.Type",
-                        MessageAttributeValue.builder()
-                                .dataType("String")
-                                .stringValue("wns/toast")
-                                .build());
-                publishRequestBuilder.messageAttributes(messageAttributes);
-            } else if (platform == SNSPlatformApplication.MPNS) {
-                Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
-                messageAttributes.put("AWS.SNS.MOBILE.MPNS.Type",
-                        MessageAttributeValue.builder()
-                                .dataType("String")
-                                .stringValue("token")
-                                .build());
-                publishRequestBuilder.messageAttributes(messageAttributes);
-            }
+            addPlatformMessageAttributes(publishRequestBuilder, platform);
 
             PublishRequest publishRequest = publishRequestBuilder.build();
 
@@ -484,6 +468,34 @@ public class AmazonSNSPushProvider implements PushProvider {
             PushProviderConstants.ErrorMessages error =
                     PushProviderConstants.ErrorMessages.ERROR_WHILE_DELETING_SECRETS_OF_PUSH_PROVIDER;
             throw new PushProviderServerException(error.getCode(), error.getMessage(), e);
+        }
+    }
+
+    /**
+     * Add platform-specific message attributes for WNS and MPNS platforms to the publish request.
+     *
+     * @param publishRequestBuilder The publish request builder to add attributes to.
+     * @param platform              The SNS platform application.
+     */
+    private void addPlatformMessageAttributes(PublishRequest.Builder publishRequestBuilder,
+                                              SNSPlatformApplication platform) {
+
+        if (platform == SNSPlatformApplication.WNS) {
+            Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
+            messageAttributes.put("AWS.SNS.MOBILE.WNS.Type",
+                    MessageAttributeValue.builder()
+                            .dataType("String")
+                            .stringValue("wns/toast")
+                            .build());
+            publishRequestBuilder.messageAttributes(messageAttributes);
+        } else if (platform == SNSPlatformApplication.MPNS) {
+            Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
+            messageAttributes.put("AWS.SNS.MOBILE.MPNS.Type",
+                    MessageAttributeValue.builder()
+                            .dataType("String")
+                            .stringValue("token")
+                            .build());
+            publishRequestBuilder.messageAttributes(messageAttributes);
         }
     }
 
