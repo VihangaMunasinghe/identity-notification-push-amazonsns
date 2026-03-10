@@ -142,7 +142,7 @@ public class AmazonSNSPushProvider implements PushProvider {
 
         } catch (NotFoundException e) {
             if (log.isDebugEnabled()) {
-                log.debug("Some required resource not found: "
+                log.debug("Push notification send failed: "
                         + sanitizeLogInput(e.awsErrorDetails().errorMessage()), e);
             }
             PushProviderConstants.ErrorMessages error =
@@ -583,7 +583,7 @@ public class AmazonSNSPushProvider implements PushProvider {
         String platformArnKey = SNSPushProviderConstants.SNS_PLATFORM_ARNS +
                 SNSPushProviderConstants.SNS_PLATFORM_DELIMITER + platform.getName();
         String platformArnValue = properties.get(platformArnKey);
-        if (platformArnValue != null && !platformArnValue.isEmpty()) {
+        if (StringUtils.isNotEmpty(platformArnValue)) {
             return platformArnValue;
         } else {
             if (log.isDebugEnabled()) {
@@ -650,7 +650,7 @@ public class AmazonSNSPushProvider implements PushProvider {
      */
     private static String sanitizeLogInput(String input) {
 
-        if (input == null) {
+        if (StringUtils.isBlank(input)) {
             return null;
         }
         return input.replaceAll("[\r\n]", "_");
