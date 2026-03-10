@@ -53,9 +53,7 @@ public class SNSProviderServiceComponent {
             return;
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(" SNS Push Provider Service Component bundle activated successfully.");
-        }
+        LOG.debug("SNS Push Provider Service Component bundle activated successfully.");
     }
 
     @Deactivate
