@@ -140,7 +140,9 @@
                             software.amazon.awssdk.http.apache5,
                             software.amazon.awssdk.regions,
                             software.amazon.awssdk.services.sns,
-                            software.amazon.awssdk.services.sns.model
+                            software.amazon.awssdk.services.sns.model,
+
+                            org.json
                         </Import-Package>
                     </instructions>
                 </configuration>
